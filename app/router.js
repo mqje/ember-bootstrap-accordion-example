@@ -7,6 +7,12 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
+  this.route('parent', {path: '/parent/:parent_id'});
+
+  this.route('parents', function () {
+    this.route('list');
+  });
+
 });
 
 export default Router;

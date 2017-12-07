@@ -1,0 +1,48 @@
+Here is how to reproduce the issue:
+<ul>
+  <li>1. Click on the second tab: "Second Tab"</li>
+  <li>2. There is below a list of children. To add one, click on the button "Add Children"</li>
+  <li>3. As you can see, when you click on the button, you are redirected to the first tab,<br> this behaviour is present
+    since I updated ember-bootstrap from the version 0.11 to the 1.0.0-beta.2</li>
+</ul>
+
+The structure of the code is the following:
+there is two tab<br>
+and in the second one there is an accordion for each child.<br>
+<br>
+When you add a child, it is added to the model.<br>
+
+If we remove the accordion, the user is not redirected to the first tab.<br>
+<br>
+If you refresh the page, this will not work because it will unload the store.
+
+{{#bs-tab  as |tab|}}
+  {{#tab.pane title="First tab"}}
+    First tab
+  {{/tab.pane}}
+
+  {{#tab.pane title="Second Tab"}}
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="pull-left">
+            {{bs-button type='primary'
+                        defaultText="Add child to parent"
+                        onClick=(route-action 'createChild')}}
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      {{#bs-accordion as |acc|}}
+        {{#each model.children as |child|}}
+          {{#acc.item title='Child'}}
+            {{child.id}}
+          {{/acc.item}}
+          <hr>
+        {{/each}}
+      {{/bs-accordion}}
+    </div>
+  {{/tab.pane}}
+{{/bs-tab}}
